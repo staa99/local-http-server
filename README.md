@@ -13,7 +13,12 @@ curl -sSL https://raw.githubusercontent.com/staa99/local-http-server/refs/tags/v
 ```
 
 You can override installation defaults by setting the following environment variables before running the command:
-- `LHS_CONFIG`
+- `LHS_CONFIG_DIR`: This specifies the directory where the configuration file will be stored. 
+  Default is `$HOME/.local-http-server`.
+- `LHS_PORT`: This specifies the port on which the local HTTP server will listen. 
+  Default is `80`. You can set this to any available port on your system.
+- `LHS_INSTALL_DIR`: This specifies the directory where the local HTTP server will be installed. 
+  Default is `$HOME/.local-http-server/bin`. This should be a directory where you have write permissions.
 
 
 
