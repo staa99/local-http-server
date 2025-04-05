@@ -20,8 +20,6 @@ You can override installation defaults by setting the following environment vari
 - `LHS_INSTALL_DIR`: This specifies the directory where the local HTTP server will be installed. 
   Default is `$HOME/.local-http-server/bin`. This should be a directory where you have write permissions.
 
-
-
 ## Configuration
 
 The configuration is stored by default at $HOME/.local-http-server/config.json
