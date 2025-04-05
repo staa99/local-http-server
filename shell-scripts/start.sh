@@ -2,6 +2,7 @@
 set -e
 
 config_file=${LHS_CONFIG:-~/.local-http-server/config.json}
+host_port=${LHS_PORT:-80}
 
 if [ ! -d ~/.local-http-server ]; then
   mkdir ~/.local-http-server
@@ -29,7 +30,7 @@ docker rm local-http-server > /dev/null
 echo "Starting local-http-server Docker container..."
 docker run -d \
   --name local-http-server \
-  -p 80:80 \
+  -p $host_port:80 \
   -v ~/.local-http-server:/app \
   staa99/local-http-server:latest
 
