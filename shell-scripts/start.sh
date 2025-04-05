@@ -1,12 +1,14 @@
 #!/bin/bash
 set -e
 
-if [ ! -f ~/.local-http-server/config.json ]; then
+config_file=${LHS_CONFIG:-~/.local-http-server/config.json}
+
+if [ ! -d ~/.local-http-server ]; then
   mkdir ~/.local-http-server
 fi
 
-if [ ! -f ~/.local-http-server/config.json ]; then
-    echo '{}' > ~/.local-http-server/config.json
+if [ ! -f "$config_file" ] || [ ! -s "$config_file" ]; then
+    echo '{}' > "$config_file"
 fi
 
 # If docker is not running, log an error and terminate
@@ -19,8 +21,9 @@ fi
 if [ "$(docker ps -q -f name=local-http-server)" ]; then
     echo "Stopping existing local-http-server container..."
     docker stop local-http-server > /dev/null
-    docker rm local-http-server > /dev/null
 fi
+
+docker rm local-http-server > /dev/null
 
 # Start the local-http-server in a Docker container
 echo "Starting local-http-server Docker container..."
@@ -32,12 +35,14 @@ docker run -d \
 
 host=$(docker container exec local-http-server sh -c "ping -c 1 host.docker.internal" | awk -F'[()]' '/PING/{print $2}')
 
-# Store the host in the JSON config file - note that there may be some data already
-# The key for the host is `static.host_ip`
 if [ -n "$host" ]; then
-    # Use jq to update the JSON file
-    jq --arg host "$host" '.static.host_ip = $host' ~/.local-http-server/config.json > tmp.$$.json && mv tmp.$$.json ~/.local-http-server/config.json
-    echo "Updated static.host_ip to $host in config.json"
+    if jq empty "$config_file" > /dev/null 2>&1; then
+        # Use jq to update the JSON file
+        jq --arg host "$host" '.static.host_ip = $host' "$config_file" > tmp.$$.json && mv tmp.$$.json "$config_file"
+        echo "Updated static.host_ip to $host in $config_file"
+    else
+        echo "$config_file is not valid JSON. Please fix the file and try again."
+    fi
 else
     echo "Failed to determine host IP."
 fi
