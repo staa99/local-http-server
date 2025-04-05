@@ -86,7 +86,7 @@ async function getHostIp() {
 
 async function loadConfig() {
   const configText = await fs.promises.readFile(configFile, "utf8");
-  const config = JSON.parse(configText || '{}');
+  const config = JSON.parse(configText || "{}");
 
   const zones = Object.entries(config);
   for (let i = 0; i < zones.length; i++) {
