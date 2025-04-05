@@ -9,7 +9,7 @@ with `localhost/myservice`.
 To install the local HTTP server, run the following command in your terminal:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/staa99/local-http-server/refs/tags/v1.0.0-beta.1/shell-scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/staa99/local-http-server/refs/tags/v1.0.0-beta.2/shell-scripts/install.sh | bash
 ```
 
 You can override installation defaults by setting the following environment variables before running the command:
